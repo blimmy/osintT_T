@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OSINT T_T — practical, privacy-aware OSINT CTF decision flowcharts with Thai explanations and exact commands.">
+  <meta name="theme-color" content="#07111f">
+  <title>OSINT T_T — CTF Decision Flowcharts</title>
+  <style>
+    :root { color-scheme: dark; --bg:#07111f; --panel:#0d1b2e; --line:#243b55; --text:#edf5ff; --muted:#a8bad2; --green:#55d98b; --blue:#5da7ff; --amber:#f3b73f; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:system-ui,"Noto Sans Thai",Tahoma,sans-serif; background:var(--bg); color:var(--text); }
+    a { color:inherit; }
+    .shell { width:min(1440px,calc(100% - 32px)); margin:auto; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid rgba(168,186,210,.18); background:rgba(7,17,31,.92); backdrop-filter:blur(14px); }
+    nav { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { font-weight:850; letter-spacing:.08em; text-decoration:none; }
+    .repo { color:var(--muted); text-decoration:none; border:1px solid var(--line); padding:9px 14px; border-radius:999px; }
+    .repo:hover,.repo:focus-visible { color:var(--text); border-color:var(--blue); }
+    .hero { padding:72px 0 40px; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:28px; align-items:end; }
+    .eyebrow { color:var(--green); font:700 13px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; }
+    h1 { margin:12px 0 14px; font-size:clamp(42px,8vw,94px); line-height:.92; letter-spacing:-.055em; }
+    .hero p { margin:0; max-width:760px; color:var(--muted); font-size:clamp(17px,2vw,21px); line-height:1.7; }
+    .stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; min-width:250px; }
+    .stat { padding:18px; border:1px solid var(--line); border-radius:18px; background:var(--panel); }
+    .stat strong { display:block; font-size:28px; }
+    .stat span { color:var(--muted); font-size:13px; }
+    .controls { position:sticky; top:65px; z-index:4; padding:16px 0; background:linear-gradient(var(--bg) 72%,transparent); }
+    .control-row { display:grid; grid-template-columns:minmax(260px,1fr) minmax(220px,320px); gap:12px; }
+    input,select { width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 16px; background:var(--panel); color:var(--text); font:inherit; outline:none; }
+    input:focus,select:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(93,167,255,.14); }
+    .filters { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .chip { border:1px solid var(--line); background:var(--panel); color:var(--muted); border-radius:999px; padding:8px 12px; cursor:pointer; font:inherit; }
+    .chip:hover,.chip[aria-pressed="true"] { color:var(--text); border-color:var(--green); background:#123429; }
+    .result-line { margin:18px 0; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; padding-bottom:72px; }
+    .card { min-width:0; border:1px solid var(--line); border-radius:20px; overflow:hidden; background:var(--panel); transition:transform .16s ease,border-color .16s ease; }
+    .card:hover { transform:translateY(-3px); border-color:#4c6f97; }
+    .preview { display:block; aspect-ratio:9/11; background:#050c16; border-bottom:1px solid var(--line); overflow:hidden; }
+    .preview img { width:100%; height:100%; object-fit:contain; display:block; }
+    .meta { padding:16px; }
+    .category { color:var(--green); font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace; }
+    h2 { margin:8px 0 14px; font-size:17px; line-height:1.35; overflow-wrap:anywhere; }
+    .actions { display:flex; gap:8px; }
+    .actions a { text-decoration:none; color:var(--muted); font-size:13px; border:1px solid var(--line); padding:8px 10px; border-radius:10px; }
+    .actions a:first-child { color:var(--text); border-color:#3c6795; }
+    .empty { display:none; padding:56px 20px 90px; text-align:center; color:var(--muted); }
+    footer { border-top:1px solid var(--line); color:var(--muted); padding:28px 0 44px; font-size:14px; }
+    @media (max-width:980px) { .hero { grid-template-columns:1fr; } .stats { max-width:420px; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:640px) { .shell { width:min(100% - 20px,1440px); } .hero { padding-top:48px; } .control-row,.grid { grid-template-columns:1fr; } .controls { top:64px; } .stats { min-width:0; } .repo { font-size:13px; } }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+  <header><nav class="shell"><a class="brand" href="#top">OSINT T_T</a><a class="repo" href="https://github.com/blimmy/osintT_T">GitHub repository ↗</a></nav></header>
+  <main id="top" class="shell">
+    <section class="hero">
+      <div><div class="eyebrow">LOCAL-FIRST • NO EVIDENCE UPLOAD</div><h1>Decide.<br>Investigate.<br>Verify.</h1><p>สารานุกรมแผนผังตัดสินใจ OSINT CTF ภาษาไทย: อ่านโจทย์ → เลือกเครื่องมือ → รันคำสั่งจริง → แปลผล → pivot → ตรวจคำตอบ โดยไม่อัปโหลดหลักฐานที่ได้รับ</p></div>
+      <div class="stats"><div class="stat"><strong>65</strong><span>flowcharts</span></div><div class="stat"><strong>13</strong><span>categories</span></div><div class="stat"><strong>100+</strong><span>question patterns</span></div><div class="stat"><strong>15</strong><span>pivot scenarios</span></div></div>
+    </section>
+    <section class="controls" aria-label="ค้นหาและกรอง"><div class="control-row"><input id="search" type="search" placeholder="ค้นหา เช่น DNS, EXIF, Base64, username, stuck…" autocomplete="off"><select id="category" aria-label="เลือกหมวด"></select></div><div id="chips" class="filters"></div></section>
+    <p id="resultLine" class="result-line" aria-live="polite"></p>
+    <section id="grid" class="grid" aria-label="Flowchart gallery"></section>
+    <div id="empty" class="empty">ไม่พบแผนผัง ลองใช้คำค้นสั้นลงหรือเลือก All categories</div>
+  </main>
+  <footer><div class="shell">OSINT T_T • Free/open-source primary workflows • Public research only • Evidence stays local</div></footer>
+  <script>
+    const repo='https://github.com/blimmy/osintT_T', raw='https://raw.githubusercontent.com/blimmy/osintT_T/main';
+    const groups={
+      '00-MASTER':['00-MASTER-01-DECISION-ENGINE','00-MASTER-02-SPEED-TIERS','00-MASTER-03-PRIVACY-SAFETY'],
+      '01-QUESTION-KEYWORDS':['01-KEYWORDS-01-LOCATION','01-KEYWORDS-02-IDENTITY','01-KEYWORDS-03-TIME-HISTORY','01-KEYWORDS-04-HIDDEN-TEXT','01-KEYWORDS-05-FOLLOW-UP'],
+      '02-IMAGE-OSINT':['02-IMAGE-01-FIRST-TRIAGE','02-IMAGE-02-EXIF-GPS','02-IMAGE-03-OCR','02-IMAGE-04-SCREENSHOT-NO-METADATA','02-IMAGE-05-SOURCE-NO-UPLOAD','02-IMAGE-06-QR-BARCODE'],
+      '03-GEOLOCATION':['03-GEO-01-COUNTRY-REGION','03-GEO-02-EXACT-PLACE','03-GEO-03-TRANSPORT-ROADS','03-GEO-04-RURAL-LANDSCAPE','03-GEO-05-MAP-SATELLITE','03-GEO-06-SHADOW-TIME','03-GEO-07-MULTIPLE-CANDIDATES'],
+      '04-TEXT-ENCODING':['04-TEXT-01-IDENTIFY','04-TEXT-02-BASES','04-TEXT-03-NUMERIC-ESCAPES','04-TEXT-04-WEB-UNICODE','04-TEXT-05-NESTED-COMPRESSED','04-TEXT-06-ROT-MORSE','04-TEXT-07-IDS-HASHES','04-TEXT-08-QR-URL'],
+      '05-USERNAME-SOCIAL':['05-USERNAME-01-EXACT','05-USERNAME-02-COMMON-PARTIAL','05-USERNAME-03-PUBLIC-POST','05-USERNAME-04-VALIDATE'],
+      '06-WEBSITE-DOMAIN':['06-WEB-01-URL-DOMAIN-FIRST','06-WEB-02-DNS','06-WEB-03-RDAP','06-WEB-04-HTTP-TLS-SOURCE','06-WEB-05-GOOGLE-DORKING','06-WEB-06-ROBOTS-SITEMAP','06-WEB-07-ARCHIVES'],
+      '07-DOCUMENT-OSINT':['07-DOC-01-FIRST-TRIAGE','07-DOC-02-PDF-OCR','07-DOC-03-OOXML','07-DOC-04-COMPARE'],
+      '08-VIDEO-AUDIO':['08-MEDIA-01-VIDEO-FIRST','08-MEDIA-02-FRAMES-OCR','08-MEDIA-03-VIDEO-TIME-SOURCE','08-MEDIA-04-AUDIO-FIRST'],
+      '09-PUBLIC-RESEARCH':['09-PUBLIC-01-NO-FILE','09-PUBLIC-02-EARLIEST-SOURCE','09-PUBLIC-03-TIMELINE','09-PUBLIC-04-OFFICIAL-RECORDS'],
+      '10-EVIDENCE-PIVOTING':['10-PIVOT-01-LOCATION-CHAINS','10-PIVOT-02-IDENTITY-CHAINS','10-PIVOT-03-DOMAIN-CHAINS','10-PIVOT-04-DOCUMENT-EVENT-CHAINS','10-PIVOT-05-MIXED-CHAINS'],
+      '11-TOOL-COMMANDS':['11-TOOLS-01-INSTALL','11-TOOLS-02-IMAGE-DOC','11-TOOLS-03-WEB-TEXT','11-TOOLS-04-MEDIA-MAPS'],
+      '12-STUCK-AND-VERIFY':['12-STUCK-01-LOCAL-FAILURES','12-STUCK-02-SEARCH-ARCHIVE','12-STUCK-03-AMBIGUITY','12-STUCK-04-VERIFY']
+    };
+    const aliases={master:'00-MASTER',keywords:'01-QUESTION-KEYWORDS',image:'02-IMAGE-OSINT',geo:'03-GEOLOCATION',text:'04-TEXT-ENCODING',username:'05-USERNAME-SOCIAL',web:'06-WEBSITE-DOMAIN',document:'07-DOCUMENT-OSINT',media:'08-VIDEO-AUDIO',research:'09-PUBLIC-RESEARCH',pivot:'10-EVIDENCE-PIVOTING',tools:'11-TOOL-COMMANDS',stuck:'12-STUCK-AND-VERIFY'};
+    const tags={image:'photo exif gps ocr screenshot qr barcode reverse image search',geo:'location city country coordinate street road landmark station map satellite rural shadow transport',text:'base64 base32 base58 hex binary octal ascii url html unicode jwt json xml gzip zlib rot13 caesar morse punycode hash uuid timestamp',username:'account alias profile social post author organization',web:'domain dns rdap whois curl tls certificate google dorking robots sitemap archive',document:'pdf docx pptx xlsx office metadata author ooxml',media:'video audio ffmpeg ffprobe frame transcription spectrogram',research:'source history timeline date official public record',pivot:'found next chain follow-up evidence',stuck:'failure verify ambiguous conflict no result'};
+    const items=Object.entries(groups).flatMap(([category,names])=>names.map(name=>({category,name,search:(category+' '+name+' '+Object.entries(aliases).filter(([,v])=>v===category).map(([k])=>tags[k]||'').join(' ')).toLowerCase()})));
+    const $=s=>document.querySelector(s), grid=$('#grid'), search=$('#search'), category=$('#category'), chips=$('#chips'), empty=$('#empty'), resultLine=$('#resultLine');
+    category.innerHTML='<option value="">All categories</option>'+Object.keys(groups).map(x=>`<option>${x}</option>`).join('');
+    const chipNames=['all','master','image','geo','text','username','web','document','media','research','pivot','tools','stuck'];
+    chips.innerHTML=chipNames.map((x,i)=>`<button class="chip" data-key="${x}" aria-pressed="${i===0}">${x.toUpperCase()}</button>`).join('');
+    function card(x){const svg=`${raw}/${x.category}/${x.name}.svg`,png=`${raw}/${x.category}/${x.name}.png`,blob=`${repo}/blob/main/${x.category}/${x.name}.svg`;return `<article class="card"><a class="preview" href="${blob}"><img loading="lazy" src="${svg}" alt="${x.name} flowchart"></a><div class="meta"><div class="category">${x.category}</div><h2>${x.name.replaceAll('-',' ')}</h2><div class="actions"><a href="${blob}">View on GitHub</a><a href="${svg}">SVG</a><a href="${png}">PNG</a></div></div></article>`}
+    function render(){const q=search.value.trim().toLowerCase(),cat=category.value;const shown=items.filter(x=>(!cat||x.category===cat)&&(!q||x.search.includes(q)));grid.innerHTML=shown.map(card).join('');empty.style.display=shown.length?'none':'block';resultLine.textContent=`แสดง ${shown.length} จาก ${items.length} แผนผัง`;}
+    search.addEventListener('input',render);category.addEventListener('change',()=>{document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));render()});
+    chips.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');category.value=b.dataset.key==='all'?'':aliases[b.dataset.key];render()});
+    render();
+  </script>
+</body>
+</html>
