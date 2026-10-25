@@ -134,7 +134,7 @@
           'repr และคู่ code point/name', 'zero-width/combining characters อาจทำให้ search/hash ต่าง; เก็บ original ก่อน normalize',
           D('Invisible clue found?', { text: 'YES — document code points', flow: '04-TEXT-04-WEB-UNICODE' }, { text: 'NO — alternate encoding', flow: '04-TEXT-01-IDENTIFY' }, { text: 'NORMALIZATION ISSUE — compare NFC/NFKC', flow: '04-TEXT-04-WEB-UNICODE' }),
           ['Preserve original', 'Print repr', 'List code points', 'Identify names', 'Normalize only a copy'], ['04-TEXT-04-WEB-UNICODE'], ['xxd']),
-        R('gzip', 'Decompress gzip with a size bound', 'ถอด compressed clue โดยจำกัด output และไม่ execute', ['gzip base64', '1f8b magic', 'nested encoding'], ['python3 -c \'import gzip;raw=open("decoded.bin","rb").read();d=gzip.decompress(raw);assert len(d)<10000000;open("out.bin","wb").write(d)\'', 'file out.bin'],
+        R('gzip', 'Decompress gzip with a size bound', 'ถอด compressed clue โดยจำกัด output และไม่ execute', ['gzip base64', '1f8b magic', 'nested encoding'], ['python3 -c \'import gzip;f=gzip.open("decoded.bin","rb");d=f.read(10000001);f.close();assert len(d)<=10000000,"output exceeds 10 MB";open("out.bin","wb").write(d)\'', 'file out.bin'],
           'out.bin ต่ำกว่า limit และ file ระบุชนิด', 'ตรวจ magic/size ก่อน; archive bombs/resource exhaustion เป็นไปได้',
           D('Output identifiable?', { text: 'YES — classify next layer', flow: '04-TEXT-05-NESTED-COMPRESSED' }, { text: 'NO — stop and inspect bytes', tool: 'xxd', task: 'header' }, { text: 'LIMIT HIT — do not continue blindly', flow: '12-STUCK-01-LOCAL-FAILURES' }),
           ['Check gzip magic', 'Bound input/output', 'Decompress to new file', 'Run file', 'Never execute output'], ['04-TEXT-05-NESTED-COMPRESSED'], ['file', 'xxd'])
