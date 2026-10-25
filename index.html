@@ -16,7 +16,7 @@
       <a href="#view=gallery" data-nav="gallery">Challenges</a>
       <a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE" data-nav="flow">Flowcharts</a>
       <a href="#view=tools" data-nav="tools">Tools</a>
-      <a class="cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="เปิด CTF Cheatsheet ในแท็บใหม่">▤ Cheatsheet ↗</a>
+      <a class="cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="My Personal Command &amp; Reference Cheatsheet — opens in a new tab">▤ Cheatsheet ↗</a>
     </nav>
     <div class="global-search-wrap">
       <label class="sr-only" for="globalSearch">ค้นหาคำถาม tool field หรือ command</label>
@@ -28,35 +28,19 @@
   </header>
   <div id="mobileMenu" class="mobile-menu" hidden>
     <a href="#view=gallery">Challenges</a><a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">Flowcharts</a><a href="#view=tools">Tools</a>
-    <a href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">▤ CTF Cheatsheet ↗</a>
+    <a href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="My Personal Command &amp; Reference Cheatsheet — opens in a new tab">▤ CTF Cheatsheet ↗</a>
   </div>
-  <div class="privacy-strip">LOCAL-FIRST · ไม่มี file upload · ไม่มี telemetry · checklist อยู่ใน browser นี้เท่านั้น</div>
+  <div class="privacy-strip">LOCAL-FIRST · ไม่มี file upload · ไม่มี telemetry · คำสั่งไม่ถูกรันใน browser</div>
 
   <main id="main" tabindex="-1">
     <section id="galleryView" class="gallery-view" aria-labelledby="galleryTitle">
-      <div class="hero">
-        <img src="assets/covers/ctf-field-guide-hero.png" alt="Synthetic OSINT, cryptography and digital forensics investigation workspace" fetchpriority="high">
-        <div class="hero-shade"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">INTERACTIVE CTF FIELD GUIDE</p>
-          <h1 id="galleryTitle">เห็นโจทย์แบบไหน<br><span>เริ่มจากตรงนั้น</span></h1>
-          <p>เลือกตัวอย่างโจทย์เพื่อเปิดแผนผังขนาดใหญ่ จากนั้นกด tool เพื่อดูคำสั่งจริง ผลที่ควรเห็น checklist และทางไปต่อเมื่อไม่พบคำตอบ</p>
-          <div class="hero-actions">
-            <a class="primary-btn link-btn" href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">เปิด Master Router</a>
-            <a class="secondary-btn link-btn" href="#view=flow&flow=14-FORENSICS-01-MASTER">Forensics Router</a>
-            <a class="secondary-btn link-btn" href="#view=flow&flow=13-CRYPTO-01-MASTER">Crypto Router</a>
-          </div>
-        </div>
-        <div class="hero-stats"><span><b id="challengeCount">0</b> challenge paths</span><span><b id="galleryFlowCount">0</b> flowcharts</span><span><b id="galleryToolCount">0</b> tools</span></div>
-      </div>
-
       <section class="start-here" aria-label="Beginner start">
         <div><span class="start-icon">?</span><div><strong>ยังไม่รู้ว่าต้องใช้ tool อะไร?</strong><p>ไม่ต้องเดา tool — เริ่มจากชนิดหลักฐานหรือถ้อยคำในโจทย์</p></div></div>
         <a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">พาไปจุดเริ่มต้น →</a>
       </section>
 
-      <section class="gallery-section" aria-labelledby="challengeHeading">
-        <div class="section-heading"><div><p class="eyebrow">CHALLENGE GALLERY</p><h2 id="challengeHeading">โจทย์ของคุณหน้าตาแบบไหน?</h2></div><p id="galleryStatus" aria-live="polite"></p></div>
+      <section class="gallery-section" aria-labelledby="galleryTitle">
+        <div class="section-heading"><div><p class="eyebrow">CHALLENGE GALLERY</p><h1 id="galleryTitle">เลือกจากตัวอย่างโจทย์</h1></div><div class="gallery-summary"><span><b id="challengeCount">0</b> paths</span><span><b id="galleryFlowCount">0</b> flowcharts</span><span><b id="galleryToolCount">0</b> tools</span><span id="galleryStatus" aria-live="polite"></span></div></div>
         <div class="filter-bar">
           <label><span>Category</span><select id="categoryFilter"><option value="">ทั้งหมด</option></select></label>
           <label><span>Evidence</span><select id="evidenceFilter"><option value="">ทุกชนิด</option></select></label>
@@ -84,13 +68,13 @@
             <button id="zoomReset" class="secondary-btn">Fit</button>
             <button id="zoomIn" class="secondary-btn" aria-label="ขยายแผนผัง">+</button>
             <button id="expandFlow" class="primary-btn">⛶ Fullscreen</button>
-            <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="เปิด CTF Cheatsheet ในแท็บใหม่">▤ Cheatsheet ↗</a>
+            <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="My Personal Command &amp; Reference Cheatsheet — opens in a new tab">▤ Cheatsheet ↗</a>
           </div>
         </div>
         <div id="breadcrumbs" class="breadcrumbs"></div>
         <section id="diagramViewport" class="diagram-viewport" tabindex="0" aria-label="แผนผังแบบขยายได้ ลากเพื่อเลื่อน">
           <img id="flowImage" alt="" draggable="false">
-          <div id="nodeDock" class="node-dock" aria-label="Clickable tool nodes"></div>
+          <div id="nodeDock" class="node-dock" aria-label="Command reference shortcuts"></div>
         </section>
         <div class="viewer-footer">
           <span>ลากเพื่อเลื่อน · กดรูปหรือ Fullscreen เพื่อขยายในเว็บ — ไม่ไป GitHub</span>
@@ -101,16 +85,16 @@
     </section>
 
     <section id="toolsView" class="tools-view" hidden aria-labelledby="toolsTitle">
-      <div class="tools-hero"><p class="eyebrow">COMMAND PLAYBOOKS</p><h1 id="toolsTitle">Tool Library</h1><p>เลือกตามสิ่งที่ต้องการหา ไม่ต้องจำชื่อ flag เอง ทุกคำสั่งเป็นเพียงข้อความสำหรับคัดลอกไปรันใน Terminal ของคุณ</p></div>
+      <div class="tools-hero"><div><p class="eyebrow">STANDALONE COMMAND REFERENCE</p><h1 id="toolsTitle">Tool Library</h1><p>ค้นจากคำถามหรือสิ่งที่ต้องการหา แล้วคัดลอกคำสั่งไปรันใน Terminal ของคุณ</p></div><a class="cheatsheet-card" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="My Personal Command &amp; Reference Cheatsheet — opens in a new tab"><strong>▤ CTF Cheatsheet ↗</strong><small>My Personal Command &amp; Reference Cheatsheet</small></a></div>
+      <div class="tool-controls">
+        <label for="toolSearch">ค้นหา tool, คำถาม, keyword, file type หรือ command</label>
+        <input id="toolSearch" type="search" placeholder="ลองค้นหา: date taken, latitude, HTTP POST, RSA, deleted files…" autocomplete="off">
+        <div id="toolCategoryTabs" class="tool-category-tabs" role="group" aria-label="Tool categories"></div>
+      </div>
       <div id="toolDirectory" class="tool-directory"></div>
+      <div id="toolDetail" class="tool-detail" hidden></div>
     </section>
   </main>
-
-  <aside id="toolPanel" class="tool-panel" aria-label="Tool instructions" aria-hidden="true">
-    <div id="toolEmpty" class="tool-empty"><div class="empty-mark">⌘</div><h2>Tool Library</h2><p>เลือก tool จาก flowchart หรือหน้ารวม tool</p></div>
-    <div id="toolContent" hidden></div>
-  </aside>
-  <div id="toolBackdrop" class="tool-backdrop" hidden></div>
 
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
     <div class="lightbox-bar">
@@ -120,17 +104,13 @@
         <button id="lightZoomReset" class="secondary-btn">Fit</button>
         <button id="lightZoomIn" class="secondary-btn">+</button>
         <button id="browserFullscreen" class="secondary-btn">Browser Fullscreen</button>
-        <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">▤ Cheatsheet ↗</a>
+        <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="My Personal Command &amp; Reference Cheatsheet — opens in a new tab">▤ Cheatsheet ↗</a>
         <button id="closeLightbox" class="primary-btn">Close <kbd>Esc</kbd></button>
       </div>
     </div>
     <div id="lightboxViewport" class="lightbox-viewport"><img id="lightboxImage" alt="" draggable="false"></div>
   </div>
 
-  <div id="sessionBar" class="session-bar">
-    <label for="sessionSelect">Investigation</label><select id="sessionSelect" aria-label="Investigation session"></select>
-    <button id="newSession" class="secondary-btn">+ New</button><button id="resetAll" class="danger-ghost">Reset all</button>
-  </div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="data/catalog.js"></script>
