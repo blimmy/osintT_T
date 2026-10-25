@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="t d">
+<title id="t">OCR / VISIBLE TEXT synthetic challenge cover</title><desc id="d">Purpose-built fictional evidence illustration with no real personal data.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081525"/><stop offset="1" stop-color="#111f36"/></linearGradient><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#28415e" stroke-width="1"/></pattern><radialGradient id="glow"><stop stop-color="#f59e55" stop-opacity=".3"/><stop offset="1" stop-color="#f59e55" stop-opacity="0"/></radialGradient></defs>
+<rect width="960" height="540" rx="32" fill="url(#bg)"/><rect width="960" height="540" rx="32" fill="url(#grid)" opacity=".32"/><circle cx="480" cy="280" r="360" fill="url(#glow)"/>
+<g stroke="#f59e55" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M90 410h780M140 410V230h170v180M330 410V130h210v280M565 410V205h245v205"/><path d="M365 190h140M365 235h140M365 280h140"/><rect x="600" y="255" width="170" height="70" rx="12"/><path d="M625 290h120"/></g>
+<rect x="42" y="36" width="14" height="54" rx="7" fill="#f59e55"/><text x="76" y="70" font-family="Tahoma,Arial,sans-serif" font-size="24" font-weight="800" fill="#eff7ff" letter-spacing="2">OCR / VISIBLE TEXT</text>
+<text x="76" y="101" font-family="Menlo,monospace" font-size="14" fill="#9db2ca">SYNTHETIC CTF EVIDENCE • LOCAL-FIRST</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="t d">
+<title id="t">EVIDENCE PIVOTING synthetic challenge cover</title><desc id="d">Purpose-built fictional evidence illustration with no real personal data.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081525"/><stop offset="1" stop-color="#111f36"/></linearGradient><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#28415e" stroke-width="1"/></pattern><radialGradient id="glow"><stop stop-color="#f09f50" stop-opacity=".3"/><stop offset="1" stop-color="#f09f50" stop-opacity="0"/></radialGradient></defs>
+<rect width="960" height="540" rx="32" fill="url(#bg)"/><rect width="960" height="540" rx="32" fill="url(#grid)" opacity=".32"/><circle cx="480" cy="280" r="360" fill="url(#glow)"/>
+<g stroke="#f09f50" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="180" cy="285" r="68"/><circle cx="480" cy="130" r="68"/><circle cx="480" cy="440" r="68"/><circle cx="780" cy="285" r="68"/><path d="M243 252l174-90M243 318l174 90M543 162l174 90M543 408l174-90M480 198v174"/></g>
+<rect x="42" y="36" width="14" height="54" rx="7" fill="#f09f50"/><text x="76" y="70" font-family="Tahoma,Arial,sans-serif" font-size="24" font-weight="800" fill="#eff7ff" letter-spacing="2">EVIDENCE PIVOTING</text>
+<text x="76" y="101" font-family="Menlo,monospace" font-size="14" fill="#9db2ca">SYNTHETIC CTF EVIDENCE • LOCAL-FIRST</text>
+</svg>

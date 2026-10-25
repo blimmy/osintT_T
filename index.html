@@ -3,100 +3,141 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="OSINT T_T — interactive OSINT CTF flowcharts, local command recipes, and investigation checklists.">
+  <meta name="description" content="OSINT T_T — challenge-first OSINT, Cryptography, and Digital Forensics CTF field guide with interactive flowcharts and local command playbooks.">
   <meta name="theme-color" content="#07111f">
-  <title>OSINT T_T — Interactive Investigation System</title>
+  <title>OSINT T_T — Interactive CTF Field Guide</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
   <header class="topbar">
-    <button id="navToggle" class="icon-btn mobile-only" aria-label="เปิดรายการแผนผัง" aria-expanded="false">☰</button>
-    <a class="brand" href="#flow=00-MASTER-01-DECISION-ENGINE" aria-label="OSINT T T home"><span>OSINT</span> T_T</a>
+    <a class="brand" href="#view=gallery" aria-label="OSINT T T challenge gallery"><span>OSINT</span> T_T</a>
+    <nav class="global-nav" aria-label="Primary navigation">
+      <a href="#view=gallery" data-nav="gallery">Challenges</a>
+      <a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE" data-nav="flow">Flowcharts</a>
+      <a href="#view=tools" data-nav="tools">Tools</a>
+      <a class="cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="เปิด CTF Cheatsheet ในแท็บใหม่">▤ Cheatsheet ↗</a>
+    </nav>
     <div class="global-search-wrap">
-      <label class="sr-only" for="globalSearch">ค้นหา tool, คำถาม, field หรือ command</label>
-      <input id="globalSearch" type="search" placeholder="ค้นหา: date taken, GPS, decode base64, PDF author…" autocomplete="off">
+      <label class="sr-only" for="globalSearch">ค้นหาคำถาม tool field หรือ command</label>
+      <input id="globalSearch" type="search" placeholder="ลองค้นหา: exact coordinates, HTTP POST, RSA, deleted file…" autocomplete="off">
       <kbd>/</kbd>
       <div id="searchResults" class="search-results" hidden></div>
     </div>
-    <div class="session-controls">
-      <label for="sessionSelect">Session</label>
-      <select id="sessionSelect" aria-label="Investigation session"></select>
-      <button id="newSession" class="secondary-btn">+ New</button>
-      <button id="resetAll" class="danger-ghost" title="ลบ progress ทุก session">Reset all</button>
-    </div>
-    <button id="toolToggle" class="icon-btn mobile-only" aria-label="เปิด Tool Library" aria-expanded="false">Tools</button>
+    <button id="mobileMenuToggle" class="icon-btn mobile-only" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
   </header>
-
-  <div class="privacy-strip">LOCAL-FIRST · ไม่มี file upload · ไม่มี telemetry · filename และ checklist อยู่ใน browser นี้เท่านั้น</div>
-
-  <div class="app-shell">
-    <aside id="leftSidebar" class="left-sidebar" aria-label="Flowchart navigation">
-      <div class="sidebar-heading"><span>Flowchart Library</span><span id="flowCount" class="count-pill"></span></div>
-      <div class="mobile-session-box">
-        <label for="mobileSessionSelect">Investigation session</label>
-        <select id="mobileSessionSelect"></select>
-        <div><button id="mobileNewSession" class="secondary-btn">+ New session</button><button id="mobileResetAll" class="danger-ghost">Reset all</button></div>
-      </div>
-      <nav id="flowNav"></nav>
-    </aside>
-
-    <main id="main" class="main-panel" tabindex="-1">
-      <div id="breadcrumbs" class="breadcrumbs"></div>
-      <section class="flow-heading">
-        <div><p id="flowCategory" class="eyebrow"></p><h1 id="flowTitle"></h1></div>
-        <div class="flow-actions">
-          <button id="zoomOut" class="secondary-btn" aria-label="ย่อแผนผัง">−</button>
-          <button id="zoomReset" class="secondary-btn">100%</button>
-          <button id="zoomIn" class="secondary-btn" aria-label="ขยายแผนผัง">+</button>
-          <button id="expandFlow" class="primary-btn">⛶ ขยายเต็มจอ</button>
-        </div>
-      </section>
-
-      <section class="context-tools" aria-labelledby="contextToolsTitle">
-        <div><h2 id="contextToolsTitle">Tools in this flow</h2><p>กดเพื่อเปิด recipe ที่ตรงกับบริบทในแผนผัง</p></div>
-        <div id="contextToolLinks" class="tool-chips"></div>
-      </section>
-
-      <section class="diagram-card">
-        <div id="diagramViewport" class="diagram-viewport" tabindex="0" aria-label="แผนผัง เลื่อนเพื่อดู และคลิกเพื่อขยาย">
-          <button id="diagramButton" class="diagram-button" aria-label="เปิดแผนผังแบบเต็มจอ">
-            <img id="flowImage" alt="" draggable="false">
-          </button>
-        </div>
-        <div class="diagram-footer">
-          <span>คลิกรูปเพื่อขยายในเว็บ — ไม่ไป GitHub</span>
-          <span><a id="downloadSvg" download>Download SVG</a><a id="downloadPng" download>Download PNG</a></span>
-        </div>
-      </section>
-      <section class="privacy-note"><strong>เว็บไซต์นี้รัน CLI ให้ไม่ได้</strong><span>ปุ่ม Copy สร้างคำสั่งสำหรับนำไปรันใน Terminal ของคุณเท่านั้น ไม่มี Run button และไม่มีการส่งไฟล์หรือ path ออกนอกเครื่อง</span></section>
-    </main>
-
-    <aside id="toolPanel" class="tool-panel" aria-label="Tool instructions">
-      <div id="toolEmpty" class="tool-empty"><div class="empty-mark">⌘</div><h2>Tool Library</h2><p>เลือก tool จากแผนผังหรือค้นหาด้านบน เพื่อเปิด command recipe, expected output, decision และ checklist</p><button id="browseTools" class="secondary-btn">Browse all tools</button></div>
-      <div id="toolContent" hidden></div>
-    </aside>
+  <div id="mobileMenu" class="mobile-menu" hidden>
+    <a href="#view=gallery">Challenges</a><a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">Flowcharts</a><a href="#view=tools">Tools</a>
+    <a href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">▤ CTF Cheatsheet ↗</a>
   </div>
+  <div class="privacy-strip">LOCAL-FIRST · ไม่มี file upload · ไม่มี telemetry · checklist อยู่ใน browser นี้เท่านั้น</div>
 
-  <div id="drawerBackdrop" class="drawer-backdrop" hidden></div>
+  <main id="main" tabindex="-1">
+    <section id="galleryView" class="gallery-view" aria-labelledby="galleryTitle">
+      <div class="hero">
+        <img src="assets/covers/ctf-field-guide-hero.png" alt="Synthetic OSINT, cryptography and digital forensics investigation workspace" fetchpriority="high">
+        <div class="hero-shade"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">INTERACTIVE CTF FIELD GUIDE</p>
+          <h1 id="galleryTitle">เห็นโจทย์แบบไหน<br><span>เริ่มจากตรงนั้น</span></h1>
+          <p>เลือกตัวอย่างโจทย์เพื่อเปิดแผนผังขนาดใหญ่ จากนั้นกด tool เพื่อดูคำสั่งจริง ผลที่ควรเห็น checklist และทางไปต่อเมื่อไม่พบคำตอบ</p>
+          <div class="hero-actions">
+            <a class="primary-btn link-btn" href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">เปิด Master Router</a>
+            <a class="secondary-btn link-btn" href="#view=flow&flow=14-FORENSICS-01-MASTER">Forensics Router</a>
+            <a class="secondary-btn link-btn" href="#view=flow&flow=13-CRYPTO-01-MASTER">Crypto Router</a>
+          </div>
+        </div>
+        <div class="hero-stats"><span><b id="challengeCount">0</b> challenge paths</span><span><b id="galleryFlowCount">0</b> flowcharts</span><span><b id="galleryToolCount">0</b> tools</span></div>
+      </div>
+
+      <section class="start-here" aria-label="Beginner start">
+        <div><span class="start-icon">?</span><div><strong>ยังไม่รู้ว่าต้องใช้ tool อะไร?</strong><p>ไม่ต้องเดา tool — เริ่มจากชนิดหลักฐานหรือถ้อยคำในโจทย์</p></div></div>
+        <a href="#view=flow&flow=00-MASTER-01-DECISION-ENGINE">พาไปจุดเริ่มต้น →</a>
+      </section>
+
+      <section class="gallery-section" aria-labelledby="challengeHeading">
+        <div class="section-heading"><div><p class="eyebrow">CHALLENGE GALLERY</p><h2 id="challengeHeading">โจทย์ของคุณหน้าตาแบบไหน?</h2></div><p id="galleryStatus" aria-live="polite"></p></div>
+        <div class="filter-bar">
+          <label><span>Category</span><select id="categoryFilter"><option value="">ทั้งหมด</option></select></label>
+          <label><span>Evidence</span><select id="evidenceFilter"><option value="">ทุกชนิด</option></select></label>
+          <button id="clearFilters" class="secondary-btn">ล้างตัวกรอง</button>
+        </div>
+        <div id="challengeGrid" class="challenge-grid"></div>
+      </section>
+    </section>
+
+    <section id="flowView" class="flow-view" hidden aria-label="Interactive flowchart viewer">
+      <aside id="leftSidebar" class="left-sidebar" aria-label="Flowchart navigation">
+        <div class="sidebar-heading"><span>Flowchart Library</span><span id="flowCount" class="count-pill"></span></div>
+        <nav id="flowNav"></nav>
+      </aside>
+      <div id="flowBackdrop" class="drawer-backdrop" hidden></div>
+      <div class="viewer-shell">
+        <div class="viewer-toolbar">
+          <div class="viewer-title-block">
+            <button id="backGallery" class="secondary-btn">← Gallery</button>
+            <button id="navToggle" class="secondary-btn" aria-expanded="false">☰ Flowcharts</button>
+            <div><p id="flowCategory" class="eyebrow"></p><h1 id="flowTitle"></h1></div>
+          </div>
+          <div class="viewer-actions">
+            <button id="zoomOut" class="secondary-btn" aria-label="ย่อแผนผัง">−</button>
+            <button id="zoomReset" class="secondary-btn">Fit</button>
+            <button id="zoomIn" class="secondary-btn" aria-label="ขยายแผนผัง">+</button>
+            <button id="expandFlow" class="primary-btn">⛶ Fullscreen</button>
+            <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" title="เปิด CTF Cheatsheet ในแท็บใหม่">▤ Cheatsheet ↗</a>
+          </div>
+        </div>
+        <div id="breadcrumbs" class="breadcrumbs"></div>
+        <section id="diagramViewport" class="diagram-viewport" tabindex="0" aria-label="แผนผังแบบขยายได้ ลากเพื่อเลื่อน">
+          <img id="flowImage" alt="" draggable="false">
+          <div id="nodeDock" class="node-dock" aria-label="Clickable tool nodes"></div>
+        </section>
+        <div class="viewer-footer">
+          <span>ลากเพื่อเลื่อน · กดรูปหรือ Fullscreen เพื่อขยายในเว็บ — ไม่ไป GitHub</span>
+          <span class="flow-downloads"><a id="downloadSvg" download>SVG</a><a id="downloadPng" download>PNG</a></span>
+          <span id="relatedFlows" class="related-flows"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="toolsView" class="tools-view" hidden aria-labelledby="toolsTitle">
+      <div class="tools-hero"><p class="eyebrow">COMMAND PLAYBOOKS</p><h1 id="toolsTitle">Tool Library</h1><p>เลือกตามสิ่งที่ต้องการหา ไม่ต้องจำชื่อ flag เอง ทุกคำสั่งเป็นเพียงข้อความสำหรับคัดลอกไปรันใน Terminal ของคุณ</p></div>
+      <div id="toolDirectory" class="tool-directory"></div>
+    </section>
+  </main>
+
+  <aside id="toolPanel" class="tool-panel" aria-label="Tool instructions" aria-hidden="true">
+    <div id="toolEmpty" class="tool-empty"><div class="empty-mark">⌘</div><h2>Tool Library</h2><p>เลือก tool จาก flowchart หรือหน้ารวม tool</p></div>
+    <div id="toolContent" hidden></div>
+  </aside>
+  <div id="toolBackdrop" class="tool-backdrop" hidden></div>
 
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
     <div class="lightbox-bar">
-      <div><span class="eyebrow">FLOWCHART VIEWER</span><strong id="lightboxTitle"></strong></div>
+      <div><span class="eyebrow">IMMERSIVE FLOWCHART</span><strong id="lightboxTitle"></strong></div>
       <div class="lightbox-actions">
         <button id="lightZoomOut" class="secondary-btn">−</button>
         <button id="lightZoomReset" class="secondary-btn">Fit</button>
         <button id="lightZoomIn" class="secondary-btn">+</button>
+        <button id="browserFullscreen" class="secondary-btn">Browser Fullscreen</button>
+        <a class="secondary-btn link-btn cheatsheet-link" href="https://docs.google.com/document/d/1hOVwwnS4tmyR0zHeR4cTShBcFx2EQA-lS-fnt1hjmiI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">▤ Cheatsheet ↗</a>
         <button id="closeLightbox" class="primary-btn">Close <kbd>Esc</kbd></button>
       </div>
     </div>
-    <div id="lightboxViewport" class="lightbox-viewport"><img id="lightboxImage" alt=""></div>
+    <div id="lightboxViewport" class="lightbox-viewport"><img id="lightboxImage" alt="" draggable="false"></div>
   </div>
 
+  <div id="sessionBar" class="session-bar">
+    <label for="sessionSelect">Investigation</label><select id="sessionSelect" aria-label="Investigation session"></select>
+    <button id="newSession" class="secondary-btn">+ New</button><button id="resetAll" class="danger-ghost">Reset all</button>
+  </div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="data/catalog.js"></script>
+  <script src="data/extended-catalog.js"></script>
   <script src="data/flowcharts.js"></script>
+  <script src="data/extended-flowcharts.js"></script>
+  <script src="data/challenges.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
