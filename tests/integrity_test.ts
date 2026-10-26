@@ -20,6 +20,12 @@ for (const tool of tools) {
   assert(/^https:\/\//.test(tool.homepage), `Non-HTTPS official docs ${tool.id}`);
   for (const recipe of tool.recipes) {
     assert(recipe.title && recipe.goal && recipe.keywords.length && recipe.commands.length, `Incomplete command task ${tool.id}.${recipe.id}`);
+    const commandTexts = recipe.commands.map((command:any) => typeof command === 'string' ? command : command.command);
+    assert(commandTexts.every((command:string) => typeof command === 'string' && command.trim()), `Invalid command ${tool.id}.${recipe.id}`);
+    assert(new Set(commandTexts).size === commandTexts.length, `Duplicate command ${tool.id}.${recipe.id}`);
+    for (const command of recipe.commands.filter((item:any) => typeof item !== 'string')) {
+      assert(command.label && command.command && Object.keys(command).length === 2, `Invalid labeled command ${tool.id}.${recipe.id}`);
+    }
     for (const removed of ['expected','interpretation','decision','checklist','relatedFlows','relatedTools']) {
       assert(!(removed in recipe), `Obsolete Tool Library field ${removed} remains in ${tool.id}.${recipe.id}`);
     }

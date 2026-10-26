@@ -3,6 +3,7 @@
   const data = window.OSINT_TOOL_DATA;
   if (!data) throw new Error('Load catalog.js before extended-catalog.js');
   const R = (id, title, goal, keywords, commands) => ({ id, title, goal, keywords, commands });
+  const C = (label, command) => ({ label, command });
   const T = (id, name, purpose, categories, formats, license, homepage, mac, linux, errors, alternatives, recipes) => ({
     id, name, purpose, categories, formats, license, homepage,
     install: { mac, linux }, errors, alternatives, recipes
@@ -164,7 +165,7 @@
       'brew install --cask audacity', 'sudo apt install audacity',
       ['อย่า import plug-in ที่ไม่น่าเชื่อถือ', 'spectrogram pattern เป็น clue ไม่ใช่คำตอบอัตโนมัติ', 'เก็บต้นฉบับและ export แยก'], ['ffmpeg','ffprobe'], [
         R('spectrogram', 'Inspect local spectrogram and channels', 'หา tone/Morse/announcement/time clue ที่มองหรือฟังได้', ['audio spectrogram', 'Morse', 'background announcement'],
-          ['open -a Audacity {{file}}  # macOS', 'audacity {{file}}  # Kali/Ubuntu'])
+          [C('macOS', 'open -a Audacity {{file}}'), C('Kali / Ubuntu', 'audacity {{file}}')])
       ])
   );
 }());

@@ -3,6 +3,7 @@
 
   // Every task maps directly to the three sections rendered by the command reference.
   const R = (id, title, goal, keywords, commands) => ({ id, title, goal, keywords, commands });
+  const C = (label, command) => ({ label, command });
   const T = (id, name, purpose, categories, formats, license, homepage, install, errors, alternatives, recipes) => ({
     id, name, purpose, categories, formats, license, homepage, install, errors, alternatives, recipes
   });
@@ -24,9 +25,27 @@
         R('gps', 'Extract Latitude and Longitude', 'ดึงพิกัดและตรวจรูปแบบ/ช่วงค่า',
           ['GPS', 'latitude', 'longitude', 'coordinates', 'Where was this taken?', 'geolocation'],
           ['exiftool -GPSLatitude -GPSLongitude -GPSPosition {{file}}', 'exiftool -n -GPSLatitude -GPSLongitude {{file}}', 'exiftool -a -G1 -s -gps:all {{file}}']),
-        R('camera', 'Camera and editing software', 'ดูรุ่นกล้อง ผู้สร้าง และซอฟต์แวร์โดยไม่สรุปเกินหลักฐาน',
-          ['camera make', 'camera model', 'editing software', 'creator', 'artist'],
-          ['exiftool -Make -Model -Software -Artist -Creator {{file}}']),
+        R('camera', 'Find camera make and model', 'ดูผู้ผลิต รุ่นกล้อง เลนส์ และ serial ที่ไฟล์บันทึกไว้',
+          ['camera make', 'camera model', 'lens model', 'serial number', 'Which camera took this?'],
+          ['exiftool -Make -Model -LensMake -LensModel -SerialNumber {{file}}']),
+        R('software', 'Inspect editing software', 'หา tag ของโปรแกรมที่สร้าง แก้ไข หรือประมวลผลไฟล์',
+          ['editing software', 'CreatorTool', 'ProcessingSoftware', 'Was this edited?', 'software history'],
+          ['exiftool -a -G1 -s -Software -CreatorTool -ProcessingSoftware -HistorySoftwareAgent {{file}}']),
+        R('document', 'Inspect document metadata', 'หาผู้สร้าง บริษัท โปรแกรม และผู้แก้ไขล่าสุดจาก metadata เอกสาร',
+          ['PDF metadata', 'document author', 'company', 'LastModifiedBy', 'Producer'],
+          ['exiftool -a -G1 -s -Author -Creator -Company -LastModifiedBy -Producer -CreatorTool {{file}}']),
+        R('thumbnail', 'Extract embedded thumbnail', 'แยก thumbnail ที่ฝังอยู่เพื่อตรวจภาพเวอร์ชันก่อนแก้ไขหรือ crop',
+          ['embedded thumbnail', 'preview image', 'original crop', 'ThumbnailImage'],
+          ['exiftool -b -ThumbnailImage {{file}} > thumbnail.jpg', 'file thumbnail.jpg']),
+        R('timestamp-conflicts', 'Compare conflicting timestamps', 'เปรียบเทียบเวลาในแต่ละ metadata group พร้อม timezone เพื่อหาค่าที่ขัดกัน',
+          ['timestamp differences', 'conflicting dates', 'timezone offset', 'FileModifyDate', 'GPSDateTime'],
+          ['exiftool -a -G0:1 -s -DateTimeOriginal -CreateDate -ModifyDate -FileModifyDate -OffsetTimeOriginal -GPSDateTime {{file}}']),
+        R('xmp-iptc', 'Inspect XMP and IPTC tags', 'ค้น creator, rights, caption, keyword และ provenance ที่อยู่ใน XMP/IPTC',
+          ['XMP', 'IPTC', 'copyright', 'caption', 'keywords', 'provenance'],
+          ['exiftool -a -G1 -s -xmp:all -iptc:all {{file}}']),
+        R('batch', 'Read metadata from multiple files', 'สร้างตาราง metadata จากโฟลเดอร์รูปโดยไม่แก้ไฟล์ต้นฉบับ',
+          ['batch metadata', 'multiple images', 'CSV report', 'compare photos'],
+          ['exiftool -r -a -G1 -s -csv -ext jpg -ext jpeg -ext png images/ > metadata.csv']),
         R('no-metadata', 'No useful metadata', 'ยืนยันว่าอ่านไฟล์สำเร็จแล้วเปลี่ยนไปใช้ clue class ใหม่',
           ['no EXIF', 'metadata stripped', 'screenshot', 'empty output'],
           ['file {{file}}', 'exiftool -a -G1 -s {{file}}'])
@@ -90,8 +109,8 @@
       'System tools: Perl/GNU coreutils licenses vary', 'https://www.gnu.org/software/coreutils/manual/html_node/sha2-utilities.html',
       { mac: 'Built in: shasum', linux: 'Built in/coreutils: sha256sum' },
       ['Hash match proves byte identity only', 'Different metadata/recompression changes hash'], ['file', 'diff'], [
-        R('sha256', 'Hash an evidence file', 'บันทึก fingerprint ก่อนทำ derived copies', ['hash evidence', 'integrity', 'SHA-256'], ['shasum -a 256 {{file}}  # macOS', 'sha256sum {{file}}  # Kali/Ubuntu']),
-        R('compare', 'Compare file identity', 'ตรวจว่าสองไฟล์ bytes เหมือนกันหรือไม่', ['same file', 'duplicate', 'version comparison'], ['shasum -a 256 old.pdf new.pdf  # macOS', 'sha256sum old.pdf new.pdf  # Kali/Ubuntu'])
+        R('sha256', 'Hash an evidence file', 'บันทึก fingerprint ก่อนทำ derived copies', ['hash evidence', 'integrity', 'SHA-256'], [C('macOS', 'shasum -a 256 {{file}}'), C('Kali / Ubuntu', 'sha256sum {{file}}')]),
+        R('compare', 'Compare file identity', 'ตรวจว่าสองไฟล์ bytes เหมือนกันหรือไม่', ['same file', 'duplicate', 'version comparison'], [C('macOS', 'shasum -a 256 old.pdf new.pdf'), C('Kali / Ubuntu', 'sha256sum old.pdf new.pdf')])
       ]),
 
     T('shell', 'POSIX shell utilities', 'ใช้ printf, head, sed และ mkdir สำหรับ pipeline ที่ไม่ execute evidence', ['Command line', 'Safety'], ['Text streams', 'directories'],

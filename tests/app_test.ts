@@ -74,6 +74,9 @@ copies[0].click(); await w.happyDOM.whenAsyncComplete();
 assert((w as any).__copied.includes("exiftool") && (w as any).__copied.includes("'photo.jpg'"), "First exact command copy failed");
 copies[1].click(); await w.happyDOM.whenAsyncComplete();
 assert((w as any).__copied.includes("DateTimeOriginal"), "Second exact command copy failed");
+toolSearch.value = "";
+toolSearch.dispatchEvent(new w.Event("input", { bubbles: true }));
+assert(w.document.querySelectorAll("#toolDetail .recipe").length >= 10, "ExifTool command reference is missing expected task coverage");
 
 await setHash(w, "#view=tools");
 toolSearch.value = "latitude";
@@ -90,6 +93,20 @@ await setHash(w, "#view=tools&category=Digital+Forensics");
 toolSearch.value = "HTTP POST";
 toolSearch.dispatchEvent(new w.Event("input", { bubbles: true }));
 assert(w.document.querySelector('[data-directory-tool="tshark"]'), "Digital Forensics HTTP POST search did not find tshark");
+
+await setHash(w, "#view=tools");
+for (const query of ["GPS", "latitude", "date taken", "HTTP POST", "RSA", "base64", "deleted files", "process list", "PDF metadata", "extract frames"]) {
+  toolSearch.value = query;
+  toolSearch.dispatchEvent(new w.Event("input", { bubbles: true }));
+  assert(w.document.querySelectorAll(".task-result").length > 0, `Standalone task search failed: ${query}`);
+}
+toolSearch.value = "";
+await setHash(w, "#view=tools&tool=hash&task=sha256");
+const platformLabels = [...w.document.querySelectorAll('[data-recipe="sha256"] .command-label')].map(node => node.textContent);
+assert(platformLabels.includes("macOS") && platformLabels.includes("Kali / Ubuntu"), "Platform-specific commands are not labeled");
+(w.document.querySelector('[data-recipe="sha256"] [data-copy]') as HTMLElement).click();
+await w.happyDOM.whenAsyncComplete();
+assert((w as any).__copied === "shasum -a 256 'photo.jpg'", "Labeled command did not copy the exact command text");
 
 const globalSearch = w.document.querySelector("#globalSearch") as HTMLInputElement;
 for (const query of ["exact coordinates", "HTTP POST", "decode base64", "RSA", "deleted file", "EVTX", "domain owner"]) {
@@ -117,5 +134,7 @@ assert(w.document.body.textContent?.includes("My Personal Command & Reference Ch
 
 assert(!/<script[^>]+src=["']https?:/i.test(html) && !/<link[^>]+href=["']https?:/i.test(html), "Core UI depends on remote scripts/styles");
 assert(css.includes("touch-action: none") && css.includes(".challenge-grid") && css.includes(".tool-detail"), "Pan/mobile/gallery/tool styles missing");
+await setHash(w, "#view=gallery");
+assert(!(w.document.querySelector("#galleryView") as HTMLElement).hidden && (w.document.querySelector("#toolsView") as HTMLElement).hidden, "Return to Challenge Gallery failed");
 w.close();
 console.log("PASS gallery, standalone command reference, direct task search, copy, flow viewer, deep links, categories, and cheatsheet");

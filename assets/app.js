@@ -106,7 +106,7 @@
   }
 
   function toolGroups(tool) { return categoryOrder.filter(category => groupTools[category].has(tool.id)); }
-  function exampleFile(tool) {
+  function exampleFile(tool, recipe) {
     const examples = {
       tshark:'capture.pcap', wireshark:'capture.pcap', tcpdump:'capture.pcap', zeek:'capture.pcap', volatility3:'memory.raw',
       sleuthkit:'disk.img', autopsy:'disk.img', bulk_extractor:'disk.img', foremost:'disk.img', plaso:'disk.img', evtx:'security.evtx',
@@ -114,21 +114,26 @@
       audacity:'audio.wav', steghide:'evidence.jpg', zsteg:'evidence.png', unzip:'document.docx', binwalk:'evidence.bin', strings:'evidence.bin',
       xxd:'evidence.bin', file:'evidence.bin', hashcat:'hashes.txt', john:'hashes.txt', rsactftool:'public.pem', openssl:'cipher.bin'
     };
+    if (tool.id === 'exiftool' && recipe?.id === 'document') return 'document.pdf';
     return examples[tool.id] || 'photo.jpg';
   }
-  function commandFrom(template, tool) { return template.replaceAll('{{file}}', `'${exampleFile(tool)}'`); }
-  function commandCard(template, tool) {
-    return `<div class="command-card"><pre><code>${esc(commandFrom(template, tool))}</code></pre><button class="copy-btn" data-copy aria-label="Copy command">Copy</button></div>`;
+  function commandData(entry) {
+    return typeof entry === 'string' ? { label: '', command: entry } : entry;
+  }
+  function commandFrom(entry, tool, recipe) { return commandData(entry).command.replaceAll('{{file}}', `'${exampleFile(tool, recipe)}'`); }
+  function commandCard(entry, tool, recipe) {
+    const command = commandData(entry);
+    return `<div class="command-card">${command.label ? `<span class="command-label">${esc(command.label)}</span>` : ''}<pre><code>${esc(commandFrom(entry, tool, recipe))}</code></pre><button class="copy-btn" data-copy aria-label="Copy command${command.label ? ` for ${esc(command.label)}` : ''}">Copy</button></div>`;
   }
   function recipeHTML(tool, recipe, selected = false) {
     return `<details class="recipe" data-recipe="${esc(recipe.id)}" ${selected ? 'open' : ''}><summary><span class="recipe-title">${esc(recipe.title)}</span><span aria-hidden="true">＋</span></summary><div class="recipe-body">
       <div class="section-label">What am I trying to find?</div><p>${esc(recipe.goal)}</p>
       <div class="section-label">Question keywords</div><div class="keyword-list">${recipe.keywords.map(keyword => `<span class="keyword">${esc(keyword)}</span>`).join('')}</div>
-      <div class="section-label">Exact command</div>${recipe.commands.map(command => commandCard(command, tool)).join('')}
+      <div class="section-label">Exact command</div>${recipe.commands.map(command => commandCard(command, tool, recipe)).join('')}
     </div></details>`;
   }
   function toolHaystack(tool, recipe) {
-    return `${tool.name} ${tool.purpose} ${tool.categories.join(' ')} ${tool.formats.join(' ')} ${recipe.title} ${recipe.goal} ${recipe.keywords.join(' ')} ${recipe.commands.join(' ')}`.toLowerCase();
+    return `${tool.name} ${tool.purpose} ${tool.categories.join(' ')} ${tool.formats.join(' ')} ${recipe.title} ${recipe.goal} ${recipe.keywords.join(' ')} ${recipe.commands.map(command => `${commandData(command).label} ${commandData(command).command}`).join(' ')}`.toLowerCase();
   }
   function matchesQuery(haystack, query) {
     const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
